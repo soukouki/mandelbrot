@@ -80,8 +80,29 @@ int draw() {
                 iter++;
             }
 
+            //  .,-~:;=!*#$@の12種類の文字を使って描画
             if (iter == max_iter) {
+                putchar('@');
+            } else if (iter > max_iter * 11 / 12) {
+                putchar('#');
+            } else if (iter > max_iter * 10 / 12) {
+                putchar('$');
+            } else if (iter > max_iter * 9 / 12) {
                 putchar('*');
+            } else if (iter > max_iter * 8 / 12) {
+                putchar('=');
+            } else if (iter > max_iter * 7 / 12) {
+                putchar(';');
+            } else if (iter > max_iter * 6 / 12) {
+                putchar(':');
+            } else if (iter > max_iter * 5 / 12) {
+                putchar('~');
+            } else if (iter > max_iter * 4 / 12) {
+                putchar('-');
+            } else if (iter > max_iter * 3 / 12) {
+                putchar(',');
+            } else if (iter > max_iter * 2 / 12) {
+                putchar('.');
             } else {
                 putchar(' ');
             }
@@ -92,10 +113,10 @@ int draw() {
 }
 
 int operate() {
-    printf("wasd/u(p)/d(own) : ");
+    printf("wasd/u(p)/d(own)/kl(inc/dec max_iter) : ");
     int c;
     c = 0;
-    if(scanf("%c\n", &c) == -1) {
+    if(scanf("%c%*c", &c) == -1) {
         return -1;
     }
     printf("\n");
@@ -137,6 +158,12 @@ int operate() {
         im_max = fp_add(im_max, fp_sub(im_max, im_center));
         d_width = fp_mul(d_width, fp_from_int(2));
         d_height = fp_mul(d_height, fp_from_int(2));
+    } else if(c == 107) { // 'k'
+        // max_iterを増やす
+        max_iter = max_iter * 2;
+    } else if(c == 108) { // 'l'
+        // max_iterを減らす
+        max_iter = max_iter / 2;
     }
     return 0;
 }
@@ -161,6 +188,8 @@ int main() {
     while(stop == 0) {
         printf("%c[2J", 27);
         draw();
+        printf("re_min: %d, re_max: %d, im_min: %d, im_max: %d, ", re_min, re_max, im_min, im_max);
+        printf("d_width: %d, d_height: %d, max_iter: %d\n", d_width, d_height, max_iter);
         stop = operate();
     }
     return 0;
